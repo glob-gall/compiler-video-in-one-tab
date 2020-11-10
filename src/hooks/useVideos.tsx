@@ -40,8 +40,9 @@ const addVideo = useCallback((video_url:string)=>{
   const embedVideo = video_url.replace(/watch\?v=/,'embed/')
   const resetTimeVideo = embedVideo.replace(/&t=[0-9]{0,}s/,'')
   const mobileToWeb = resetTimeVideo.replace(/youtu\.be/,'www.youtube.com/embed/')
-  
-  const newVideo = {key:v4(),text:mobileToWeb}
+  const removeChannelUrl = mobileToWeb.replace(/&ab_channel=[a-z,0-9]+/i,'')
+
+  const newVideo = {key:v4(),text:removeChannelUrl}
   setVideos(state=> {
     const newVideosArray = [...state,newVideo]
     localStorage.setItem('@CompilerVideos:videos',JSON.stringify(newVideosArray))

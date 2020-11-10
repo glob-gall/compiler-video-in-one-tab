@@ -10,8 +10,7 @@ export const ContainerVideo = styled(animated.div)`
   flex-direction:column;
 
   height:140px;
-  background:#f2f2f2;
-
+  
   iframe{
     width:100%;
     height:100%;
