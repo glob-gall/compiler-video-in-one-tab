@@ -20,7 +20,6 @@ export const VideoProvider: React.FC = ({children})=>{
 
   useEffect(()=>{
       const storageVideos = localStorage.getItem('@CompilerVideos:videos')
-      console.log(!!storageVideos)
       
       if(!storageVideos){
         setVideos([{
@@ -42,9 +41,7 @@ const addVideo = useCallback((video_url:string)=>{
   const resetTimeVideo = embedVideo.replace(/&t=[0-9]{0,}s/,'')
   const mobileToWeb = resetTimeVideo.replace(/youtu\.be/,'www.youtube.com/embed/')
   
-  console.log(mobileToWeb)
   const newVideo = {key:v4(),text:mobileToWeb}
-
   setVideos(state=> {
     const newVideosArray = [...state,newVideo]
     localStorage.setItem('@CompilerVideos:videos',JSON.stringify(newVideosArray))
