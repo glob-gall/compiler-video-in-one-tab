@@ -35,14 +35,15 @@ export const VideoProvider: React.FC = ({children})=>{
   },[])
 
 const addVideo = useCallback((video_url:string)=>{
-  const valid = /www\.youtube\.com/g.test(video_url)
+  const valid = /www\.youtube\.com|youtu.be/g.test(video_url)
   if(!valid)return
 
   const embedVideo = video_url.replace(/watch\?v=/,'embed/')
   const resetTimeVideo = embedVideo.replace(/&t=[0-9]{0,}s/,'')
-  console.log(resetTimeVideo)
+  const mobileToWeb = resetTimeVideo.replace(/youtu\.be/,'www.youtube.com/embed/')
   
-  const newVideo = {key:v4(),text:resetTimeVideo}
+  console.log(mobileToWeb)
+  const newVideo = {key:v4(),text:mobileToWeb}
 
   setVideos(state=> {
     const newVideosArray = [...state,newVideo]
