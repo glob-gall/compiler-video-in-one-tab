@@ -1,10 +1,10 @@
 /* eslint-disable prettier/prettier */
 import {createContext,useCallback,useContext, useEffect, useState} from 'react'
-import {VideoLink} from '../components/VideoList'
+import {VideoProps} from '../components/VideoList/Video'
 import {v4} from 'uuid'
 
 interface IVideoProvider{
-  videos:VideoLink[]
+  videos:VideoProps[]
   addVideo(video_url:string):void
   removeVideo(key:string):void
 }
@@ -17,15 +17,15 @@ const useVideos = ():IVideoProvider => {
 }
 
 export const VideoProvider: React.FC = ({children})=>{
-  const [videos,setVideos] = useState<VideoLink[]>([])
+  const [videos,setVideos] = useState<VideoProps[]>([])
 
   useEffect(()=>{
       const storageVideos = localStorage.getItem('@CompilerVideos:videos')
 
       if(!storageVideos){
         setVideos([{
-          key:v4(),
-          text:'https://www.youtube.com/embed/5qap5aO4i9A'
+          uid:v4(),
+          url:'https://www.youtube.com/embed/5qap5aO4i9A'
         }])
         return
       }
@@ -35,6 +35,10 @@ export const VideoProvider: React.FC = ({children})=>{
   },[])
 
 const addVideo = useCallback((video_url:string)=>{
+  if(video_url===''||video_url==='lofi'){
+    video_url = 'https://www.youtube.com/watch?v=5qap5aO4i9A'
+  }
+
   const valid = /www\.youtube\.com|youtu.be/g.test(video_url)
   if(!valid)return
   const embedVideo = video_url.replace(/watch\?v=/,'embed/')
@@ -43,7 +47,7 @@ const addVideo = useCallback((video_url:string)=>{
   const mobileToWeb = removeYoutubeFeature.replace(/youtu\.be/,'www.youtube.com/embed/')
   const removeChannelUrl = mobileToWeb.replace(/&ab_channel=[a-z,0-9]+/i,'')
 
-  const newVideo = {key:v4(),text:removeChannelUrl}
+  const newVideo = {uid:v4(),url:removeChannelUrl}
   setVideos(state=> {
     const newVideosArray = [...state,newVideo]
     localStorage.setItem('@CompilerVideos:videos',JSON.stringify(newVideosArray))
@@ -51,9 +55,9 @@ const addVideo = useCallback((video_url:string)=>{
   })
 },[])
 
-const removeVideo = useCallback((key:string)=>{
+const removeVideo = useCallback((uid:string)=>{
   const oldVideos = videos;
-  const newVideos = oldVideos.filter(video=> video.key !== key)
+  const newVideos = oldVideos.filter(video=> video.uid !== uid)
 
   localStorage.setItem('@CompilerVideos:videos',JSON.stringify(newVideos))
   setVideos(newVideos)
