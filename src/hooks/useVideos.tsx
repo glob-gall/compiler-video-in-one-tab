@@ -44,7 +44,8 @@ const addVideo = useCallback((video_url:string)=>{
   const embedVideo = video_url.replace(/watch\?v=/,'embed/')
   const resetTimeVideo = embedVideo.replace(/&t=[0-9]{0,}s/,'')
   const removeYoutubeFeature = resetTimeVideo.replace(/&feature=youtu\.be/g,'')
-  const mobileToWeb = removeYoutubeFeature.replace(/youtu\.be/,'www.youtube.com/embed/')
+  const removeYoutubePause = removeYoutubeFeature.replace(/&feature=emb_rel_pause/g,'')
+  const mobileToWeb = removeYoutubePause.replace(/youtu\.be/,'www.youtube.com/embed/')
   const removeChannelUrl = mobileToWeb.replace(/&ab_channel=[a-z,0-9]+/i,'')
 
   const newVideo = {uid:v4(),url:removeChannelUrl}
