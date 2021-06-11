@@ -1,6 +1,6 @@
 #### This is a [Next.js](https://nextjs.org/) project created with three intentions
 
-# Online [HERE](https://compiler-video-in-one-tab-gpyz7tizy.vercel.app/)
+# Online [HERE](https://compiler-video-in-one-tab.vercel.app/)
   
  ## i Create this project for 3 reasons:
   1. Keep my videos easy to access without open many tabs.
